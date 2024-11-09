@@ -1,0 +1,64 @@
+/* styles.css */
+
+/* Reset basic styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Popup styling */
+body {
+  width: 250px;
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 10px;
+}
+
+h2 {
+  font-size: 1.2em;
+  color: #444;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  color: #555;
+}
+
+#language {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+/* Adding shadow for a card-like effect */
+body {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+
+button {
+  background: linear-gradient(45deg, #007bff, #00b3ff);
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #0056b3, #007bff);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
