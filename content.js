@@ -14,11 +14,29 @@ async function replaceTextInNodes(root, lang) {
       return NodeFilter.FILTER_SKIP;
     },
   });
+  const nodes = [];
+  while (true) {
+    const curr = walker.nextNode();
+    if (!curr) {
+      break;
+    }
+    nodes.push(curr);
+  }
+  translateFromNodes(nodes, lang);
+}
 
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "tranlsateClicked") {
+    const selectedLanguage = message.language;
+    replaceTextInNodes(document.body, selectedLanguage);
+  }
+});
+
+function translateFromNodes(nodes, lang) {
   let node;
   let textContent = [];
   const nodesMap = new Map();
-  while ((node = walker.nextNode())) {
+  for (node of nodes) {
     const txt = node.nodeValue.trim();
     if (!nodesMap.has(txt)) {
       textContent.push(txt);
@@ -45,29 +63,15 @@ async function replaceTextInNodes(root, lang) {
   );
 }
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "tranlsateClicked") {
-    const selectedLanguage = message.language;
-    replaceTextInNodes(document.body, selectedLanguage);
-  }
-});
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        console.log(mutation);
+      }
+    }
+  });
+  observer.observe(document.body, {
+    childList: true, // Look for direct children being added or removed
+    subtree: true, // Look for all descendants
+  }); 
 
-// // Set up a MutationObserver to listen for changes in the DOM
-// const observer = new MutationObserver((mutationsList) => {
-//   for (const mutation of mutationsList) {
-//     if (mutation.type === "childList") {
-//       // Run replaceTextInNodes on the added nodes
-//       mutation.addedNodes.forEach((node) => {
-//         if (node.nodeType === Node.ELEMENT_NODE) {
-//           replaceTextInNodes(node); // Re-run for the newly added element
-//         }
-//       });
-//     }
-//   }
-// });
-
-// // Start observing the document body for changes
-// observer.observe(document.body, {
-//   childList: true, // Look for direct children being added or removed
-//   subtree: true, // Look for all descendants
-// });
